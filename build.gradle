@@ -1,4 +1,5 @@
 apply plugin: 'java-library'
+apply plugin: 'maven'
 
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
@@ -26,6 +27,8 @@ allprojects {
         mavenCentral()
     }
 }
+sourceCompatibility = 11
+targetCompatibility = 11
 
 dependencies {
     api 'org.dmfs:rfc5545-datetime:0.3'
@@ -33,4 +36,15 @@ dependencies {
     testImplementation group: 'junit', name: 'junit', version: '4.11'
     testImplementation project("lib-recur-hamcrest")
     testImplementation 'org.dmfs:jems-testing:1.41'
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            pom.artifactId = 'lib-recur'
+            pom.version = gitVersion()
+            repository(url: "https://nexus.dev.oktopi.ai/repository/maven-releases/")
+
+        }
+    }
 }
